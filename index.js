@@ -89,7 +89,7 @@ service.get('/grades/:class', (request, response) => {
 
 // Gets my report.html file
 service.get('report.html', (request, response) => {
-   response.sendFile (_dirname + "/report.html");
+   response.sendFile (__dirname + "/report.html");
 });
 
 // Post a new grade to the database
