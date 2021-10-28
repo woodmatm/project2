@@ -1,0 +1,95 @@
+const express = require('express');
+const fs = require('fs');
+const mysql = require('mysql');
+
+const credentials = JSON.parse(fs.readFileSync('credentials.json', 'utf8'));
+const connection = mysql.createConnection(credentials);
+
+const service = express();
+
+service.use(express.json());
+
+connection.connect(error => {
+  if (error) {
+    console.log('Error with connection');
+    console.error(error);
+    process.exit(1);
+  }
+});
+
+// define endpoints...
+
+function rowToGrades(row) {
+  return {
+    id: row.id,
+    year: row.year,
+    month: row.month,
+  };
+}
+
+
+service.get('/grades/:month/:year', (request, response) => {
+  const parameters = [
+    parseInt(request.params.month),
+    parseInt(request.params.year),
+  ];
+
+
+  const query = 'SELECT * FROM grades WHERE month = ? AND year = ? AND is_deleted = 0 ORDER BY year DESC';
+  connection.query(query, parameters, (error, rows) => {
+    if (error) {
+      console.log("an error occured");
+      response.status(500);
+      response.json({
+        ok: false,
+        results: error.message,
+      });
+    } else {
+      const grades = rows.map(rowToGrades);
+      response.json({
+        ok: true,
+        results: rows.map(rowToGrades),
+      });
+    }
+  });
+});
+
+
+service.post('/grades', (request, response) => {
+  if (request.body.hasOwnProperty('year') &&
+      request.body.hasOwnProperty('month')) {
+
+    const parameters = [
+      request.body.year,
+      request.body.month,
+    ];
+
+    const query = 'INSERT INTO grades(year, month) VALUES (?, ?)';
+    connection.query(query, parameters, (error, result) => {
+      if (error) {
+        response.status(500);
+        response.json({
+          ok: false,
+          results: error.message,
+        });
+      } else {
+        response.json({
+          ok: true,
+          results: result.insertId,
+        });
+      }
+    });
+
+  } else {
+    response.status(400);
+    response.json({
+      ok: false,
+      results: 'Incomplete memory.',
+    });
+  }
+});
+
+const port = 5001;
+service.listen(port, () => {
+  console.log(`We're live in port ${port}!`);
+});

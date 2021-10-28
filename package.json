@@ -1,0 +1,28 @@
+{
+  "name": "project2",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/woodmatm/project2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/woodmatm/project2/issues"
+  },
+  "homepage": "https://github.com/woodmatm/project2#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "pm2": "^5.1.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  },
+  "description": ""
+}
