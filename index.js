@@ -38,6 +38,33 @@ function rowToGrades(row) {
   };
 }
 
+// Recieve your grades
+service.get('/grades', (request, response) => {
+  const parameters = [
+    parseInt(request.params.month),
+    parseInt(request.params.year),
+  ];
+
+
+  const query = 'SELECT * FROM grades WHERE is_deleted = 0';
+  connection.query(query, parameters, (error, rows) => {
+    if (error) {
+      console.log("an error occured");
+      response.status(500);
+      response.json({
+        ok: false,
+        results: error.message,
+      });
+    } else {
+      const grades = rows.map(rowToGrades);
+      response.json({
+        ok: true,
+        results: rows.map(rowToGrades) ,
+      });
+    }
+  });
+});
+
 
 // Recieve your grade(s) through the month and year
 service.get('/grades/:month/:year', (request, response) => {
