@@ -53,8 +53,6 @@ curl --header 'Content-Type: application/json' \
 curl --request DELETE   https://project2.woodmanwebdev.me:8443/grades/1</p>
 <br>
 <p>// Use this Curl command for PATCH where (1 = ID) so change to modify others
-curl --request PATCH --data  \
-'{"class": "CS", "course_id": 374, "month": 2, "year": 2019, "grade_num": 86, "grade_letter": "B", "test_desc": "Static Website Project"}' \
-https://project2.woodmanwebdev.me:8443/grades/1</p>
+curl --header 'Content-Type: application/json' --request PATCH --data  '{"class": "HUM", "course_id": 374, "month": 2, "year": 2019, "grade_num": 86, "grade_letter": "B", "test_desc": "First Book Assignment"}' https://project2.woodmanwebdev.me:8443/grades/7</p>
 </body>
 </html>
