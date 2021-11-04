@@ -1,4 +1,4 @@
-const express = require('express');
+onst express = require('express');
 const fs = require('fs');
 const mysql = require('mysql');
 
@@ -38,7 +38,7 @@ function rowToGrades(row) {
   };
 }
 
-// Recieve all of  your grades
+// Recieve your grades
 service.get('/grades', (request, response) => {
   const parameters = [
     parseInt(request.params.month),
@@ -102,32 +102,6 @@ service.get('/grades/:class', (request, response) => {
 
 
   const query = 'SELECT * FROM grades WHERE class = ?  AND is_deleted = 0 ORDER BY month';
-  connection.query(query, parameters, (error, rows) => {
-    if (error) {
-      console.log("an error occured");
-      response.status(500);
-      response.json({
-        ok: false,
-        results: error.message,
-      });
-    } else {
-      const grades = rows.map(rowToGrades);
-      response.json({
-        ok: true,
-        results: rows.map(rowToGrades) ,
-      });
-    }
-  });
-});
-
-// Recieve your grade(s) through the grade letter
-service.get('/grades/:grade_letter', (request, response) => {
-  const parameters = [
-    request.params.grade_letter,
-  ];
-
-
-  const query = 'SELECT * FROM grades WHERE grade_letter = ?  AND is_deleted = 0 ORDER BY month';
   connection.query(query, parameters, (error, rows) => {
     if (error) {
       console.log("an error occured");
