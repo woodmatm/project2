@@ -1,4 +1,4 @@
-onst express = require('express');
+const express = require('express');
 const fs = require('fs');
 const mysql = require('mysql');
 
@@ -153,7 +153,7 @@ service.post('/grades', (request, response) => {
       } else {
         response.json({
           ok: true,
-          results: result.insertId,
+          results:'Successfully posted new entry with ID: ' +  result.insertId,
         });
       }
     });
@@ -191,6 +191,7 @@ service.patch('/grades/:id', (request, response) => {
     } else {
       response.json({
         ok: true,
+        results: 'Successfully updated entry at ID: ' + parseInt(request.params.id),
       });
     }
   });
@@ -212,6 +213,7 @@ service.delete('/grades/:id', (request, response) => {
     } else {
       response.json({
         ok: true,
+        results: 'Successfully deleted the entry at ID: ' +  parameters,
       });
     }
   });
